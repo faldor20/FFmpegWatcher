@@ -13,7 +13,7 @@ type YamlConfig={
 }
 
 module Main=
-  
+    ///calls ffmpeg with the supplied args
     let ffmpegConvert (outpath:string) args (path:string)=
         async{
             let fileName= Path.GetFileName path
@@ -31,6 +31,7 @@ module Main=
             |true-> printfn "sucessfully transcoded %s"  fileName
             |false->printfn "failed transcoding %s" fileName
         }
+    ///Used mostly for making sure path names have a / at the end
     let normalizeData (config:YamlConfig)=
         let dirs =config.WatchDirs|>List.map(fun x-> 
            let dest= x.Dest.TrimEnd('/')+"/"
@@ -38,6 +39,7 @@ module Main=
            printfn "%A" dest
            {x with Source=source;Dest= dest})
         {config with WatchDirs=dirs}; 
+    ///reads the Config.yaml file 
     let readConfig()=
         let configPath="Config.yaml"
         let mutable configText=File.ReadAllText(configPath)
@@ -55,6 +57,7 @@ module Main=
         |[]-> 
             printfn "couldn't pars yaml, Config file empty"
             None
+    
     let runProgram (config:YamlConfig)=
         printfn "Ready to transcode files with extnesions:%A" config.TranscodeExts
         let jobStreams=
@@ -64,7 +67,7 @@ module Main=
                     |Some arg-> arg
                     |None-> config.DefaultArgs
                 let conv= ffmpegConvert watch.Dest args
-                (conv,(Watcher.ActionNewFiles2 watch.Source):>IObservable<string>)
+                (conv,(Watcher.getNewFilesForDir watch.Source):>IObservable<string>)
             )
         let streams=
             jobStreams|>List.map(fun (task,stream)->
@@ -72,7 +75,6 @@ module Main=
                     printfn "waiting"
                     if config.TranscodeExts |>List.contains (Path.GetExtension file) then
                         try
-                        
                             Scheduler.waitTillavailable task file
                         with|e-> printfn "ERROR: something went wrong processing file %s %A" file e
                     else

@@ -20,7 +20,7 @@ module Watcher =
         
     
 
-    let ActionNewFiles2 (directory:string)   =
+    let getNewFilesForDir (directory:string)   =
         let event = new Event<string>()
         async{
    
@@ -43,7 +43,7 @@ module Watcher =
         
 
    
-    let GetNewTransfers2 watchDirs =
-        let tasks=watchDirs|>List.map (ActionNewFiles2 )
+    let getNewFiles watchDirs =
+        let tasks=watchDirs|>List.map (getNewFilesForDir )
         tasks   
         
