@@ -1,10 +1,8 @@
-#type WatchDir={Source:string;Dest:string; Args:string option}
-#type Config={
-#    DefaultArgs:string
-#    WatchDirs:WatchDir []
-#}
+# These settings were chosen because -vf "crop=iw:ih-32:0:32,scale=1024:576,setsar=1:1" 
+#turns the recangular pixeled file with a vertical blanking interval into a standard 16x9 square pixeled file
+#this wll kep the file as interlaced but might result in not being able to play the file on some video players: -flags +ildct+ilme 
 {
   TranscodeExts: [".mxf",".mov"],
-  DefaultArgs: "-c:v h264 -crf 18 -pix_fmt + -preset veryfast -flags +ildct+ilme -f h264 -y",
-  WatchDirs: [{ Source: "Z:/Quantel Transfers/From Quantel/MOV files/", Dest: "./Dest" }],
+  DefaultArgs: '-vf "crop=iw:ih-32:0:32,scale=1024:576,setsar=1:1"   -c:v h264 -crf 21 -pix_fmt + -preset veryfast ',
+  WatchDirs: [{ Source: "Z:/Quantel Transfers/From Quantel/Social/", Dest: "./Dest" }],
 }
