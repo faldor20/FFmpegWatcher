@@ -1,0 +1,10 @@
+#type WatchDir={Source:string;Dest:string; Args:string option}
+#type Config={
+#    DefaultArgs:string
+#    WatchDirs:WatchDir []
+#}
+{
+  TranscodeExts: [".mxf",".mov"],
+  DefaultArgs: "-c:v h264 -crf 18 -pix_fmt + -preset veryfast -flags +ildct+ilme -f h264 -y",
+  WatchDirs: [{ Source: "Z:/Quantel Transfers/From Quantel/MOV files/", Dest: "./Dest" }],
+}

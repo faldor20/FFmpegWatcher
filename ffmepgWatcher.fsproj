@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>NetCoreApp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+
+    <Compile Include="Scheduler.fs" />
+    <Compile Include="Watcher.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FFMpegCore" Version="2.2.6" />
+    <PackageReference Include="FSharp.Control.Reactive" Version="4.4.2" />
+    <PackageReference Include="Legivel" Version="0.4.5" />
+    <PackageReference Include="System.Reactive" Version="4.4.1" />
+    <PackageReference Include="System.Reactive.Linq" Version="4.4.1" />
+  </ItemGroup>
+
+</Project>
