@@ -10,15 +10,16 @@ type YamlConfig={
     TranscodeExts:string list
     DefaultArgs:string
     WatchDirs:WatchDir list
+    OutExtension: string
 }
 
 module Main=
     ///calls ffmpeg with the supplied args
-    let ffmpegConvert (outpath:string) args (path:string)=
+    let ffmpegConvert (outpath:string) fileExtension args (path:string)=
         async{
             let fileName= Path.GetFileName path
             
-            let outFile=Path.ChangeExtension( (outpath+fileName),".mp4")
+            let outFile=Path.ChangeExtension( (outpath+fileName),fileExtension)
             printfn "putting file in  %s with args %s " outFile  args
             let res=
                 FFMpegArguments
@@ -66,7 +67,7 @@ module Main=
                     match watch.Args with 
                     |Some arg-> arg
                     |None-> config.DefaultArgs
-                let conv= ffmpegConvert watch.Dest args
+                let conv= ffmpegConvert watch.Dest config.OutExtension args
                 (conv,(Watcher.getNewFilesForDir watch.Source):>IObservable<string>)
             )
         let streams=

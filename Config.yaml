@@ -5,4 +5,5 @@
   TranscodeExts: [".mxf",".mov"],
   DefaultArgs: '-vf "crop=iw:ih-32:0:32,scale=1024:576,setsar=1:1"   -c:v h264 -crf 21 -pix_fmt + -preset veryfast ',
   WatchDirs: [{ Source: "Z:/Quantel Transfers/From Quantel/Social/", Dest: "./Dest" }],
+  OutExtension: ".mp4"
 }

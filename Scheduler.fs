@@ -34,7 +34,7 @@ module Scheduler=
                         availability<-Availability.Deleted
             return availability
         }
-    let waitTillavailable (task:string->Async<unit>) file =
+    let runOnceAvailable (task:string->Async<unit>) file =
         printfn "waiting on %s to be available" file
         let available=isAvailable file |>Async.RunSynchronously
         printfn "Availabel and astarting task %s" file
